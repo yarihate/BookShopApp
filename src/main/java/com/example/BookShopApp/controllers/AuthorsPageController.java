@@ -23,4 +23,9 @@ public class AuthorsPageController {
         model.addAttribute("authorData", authorService.getAuthorsData());
         return "authors/index";
     }
+
+    @GetMapping("/authors/slug")
+    public String authorsSlugPage() {
+        return "authors/slug";
+    }
 }

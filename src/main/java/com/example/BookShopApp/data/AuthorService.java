@@ -5,8 +5,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorService {
@@ -18,13 +20,15 @@ public class AuthorService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Author> getAuthorsData() {
+    public Map<String, List<Author>> getAuthorsData() {
         List<Author> authors = jdbcTemplate.query("SELECT * FROM authors", (ResultSet rs, int row) -> {
             Author author = new Author();
             author.setId(rs.getInt("id"));
             author.setFullName(rs.getString("full_name"));
             return author;
         });
-        return new ArrayList<>(authors);
+        authors.sort(Comparator.comparing(Author::getFullName));
+        return authors.stream().collect
+                (Collectors.groupingBy(author -> String.valueOf(author.getFullName().charAt(0))));
     }
 }

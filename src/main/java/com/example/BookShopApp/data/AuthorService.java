@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,11 +23,12 @@ public class AuthorService {
         List<Author> authors = jdbcTemplate.query("SELECT * FROM authors", (ResultSet rs, int row) -> {
             Author author = new Author();
             author.setId(rs.getInt("id"));
-            author.setFullName(rs.getString("full_name"));
+            author.setFirstName(rs.getString("first_name"));
+            author.setLastName(rs.getString("last_name"));
             return author;
         });
-        authors.sort(Comparator.comparing(Author::getFullName));
+        //  authors.sort(Comparator.comparing(Author::getFullName));
         return authors.stream().collect
-                (Collectors.groupingBy(author -> String.valueOf(author.getFullName().charAt(0))));
+                (Collectors.groupingBy(author -> String.valueOf(author.getLastName().charAt(0))));
     }
 }

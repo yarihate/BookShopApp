@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-//@RequestMapping("/bookshop")
 public class AuthorsPageController {
 
     private final AuthorService authorService;
@@ -26,19 +25,13 @@ public class AuthorsPageController {
         return authorService.getAuthorsData();
     }
 
-//    @GetMapping("/authors/index")
-//    public String authorsPage(Model model) {
-//        model.addAttribute("authorData", authorService.getAuthorsData());
-//        return "authors/index";
-//    }
-//
-//    @GetMapping("/authors/slug")
-//    public String authorsSlugPage() {
-//        return "authors/slug";
-//    }
-
     @GetMapping("authors")
     public String authorsPage() {
         return "/authors/index";
+    }
+
+    @GetMapping("/authors/slug")
+    public String authorsSlugPage() {
+        return "authors/slug";
     }
 }

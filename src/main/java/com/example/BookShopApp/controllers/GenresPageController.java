@@ -5,14 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/genres")
 public class GenresPageController {
 
-    @GetMapping("/genres")
+    @GetMapping("/")
     public String genresPage() {
         return "genres/index";
     }
 
-    @GetMapping("/genres/slug")
+    @GetMapping("/slug")
     public String genresSlugPage() {
         return "genres/slug";
     }

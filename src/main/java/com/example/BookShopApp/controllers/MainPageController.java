@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
 
 @Controller
-//@RequestMapping("/bookshop")
 public class MainPageController {
 
     private final BookService bookService;
@@ -33,5 +32,40 @@ public class MainPageController {
 //        model.addAttribute("placeholderTextPart2", "SERVER");
 //        model.addAttribute("messageTemplate", "searchbar.placeholder2");
         return "index";
+    }
+
+    @GetMapping("/postponed")
+    public String postponedPage() {
+        return "postponed";
+    }
+
+    @GetMapping("/cart")
+    public String cartPage() {
+        return "cart";
+    }
+
+    @GetMapping("/signin")
+    public String signinPage() {
+        return "signin";
+    }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
+
+    @GetMapping("/faq")
+    public String faqPage() {
+        return "faq";
+    }
+
+    @GetMapping("/contacts")
+    public String contactsPage() {
+        return "contacts";
+    }
+
+    @GetMapping("/documents")
+    public String documentsPage() {
+        return "documents/index";
     }
 }

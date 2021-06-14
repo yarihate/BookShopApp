@@ -26,9 +26,9 @@
     <div class="wrap">
       <main class="Middle-main">
         <ul class="breadcrumbs">
-          <li class="breadcrumbs-item"><a href="/index.html">Главная</a>
+          <li class="breadcrumbs-item"><a href="/index.html" th:href="@{/}" >Главная</a>
           </li>
-          <li class="breadcrumbs-item"><a href="/authors/index.html">Авторы</a>
+          <li class="breadcrumbs-item"><a href="/authors/index.html" th:href="@{/authors}">Авторы</a>
           </li>
           <li class="breadcrumbs-item breadcrumbs-item_current"><span>Борис Васильевич Бедный</span>
           </li>
@@ -238,7 +238,7 @@
               </div>
             </div>
           </div>
-          <footer class="Section-footer"><a class="Author-books" href="/books/author.html">Все книги автора<span class="Author-amount">(55)</span></a>
+          <footer class="Section-footer"><a class="Author-books" href="/books/author.html" th:href="@{/books/author}">Все книги автора<span class="Author-amount">(55)</span></a>
           </footer>
         </div>
       </main>

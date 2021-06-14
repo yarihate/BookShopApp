@@ -16,4 +16,9 @@ public class BooksPageController {
     public String booksPopularPage() {
         return "books/popular";
     }
+
+    @GetMapping("/author")
+    public String booksAuthorPage() {
+        return "books/author";
+    }
 }

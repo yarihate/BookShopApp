@@ -2,7 +2,7 @@ package com.example.BookShopApp.data;
 
 public class Book {
     private Integer id;
-    private String author;
+    private Integer author;
     private String title;
     private String priceOld;
     private String price;
@@ -26,11 +26,11 @@ public class Book {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public Integer getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Integer author) {
         this.author = author;
     }
 

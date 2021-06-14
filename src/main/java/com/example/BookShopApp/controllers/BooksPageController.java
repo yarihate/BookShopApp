@@ -1,12 +1,24 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/books")
 public class BooksPageController {
+
+    private final BookService bookService;
+
+    @Autowired
+    public BooksPageController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
     @GetMapping("/recent")
     public String booksRecentPage() {
         return "books/recent";
@@ -18,7 +30,9 @@ public class BooksPageController {
     }
 
     @GetMapping("/author")
-    public String booksAuthorPage() {
+    public String booksAuthorPage(@RequestParam Integer authorId, @RequestParam String authorsFullName, Model model) {
+        model.addAttribute("authorsFullName", authorsFullName);
+        model.addAttribute("authorsBooks", bookService.getBooksByAuthorId(authorId));
         return "books/author";
     }
 }

@@ -26,9 +26,9 @@
     <div class="wrap">
       <main class="Middle-main">
         <ul class="breadcrumbs">
-          <li class="breadcrumbs-item"><a href="/index.html">Главная</a>
+          <li class="breadcrumbs-item" th:replace="~{fragments/breadcrumb_main_fragment :: breadcrumbMainFragment}"><a href="/index.html">Главная</a>
           </li>
-          <li class="breadcrumbs-item"><a href="/genres/index.html">Книги</a>
+          <li class="breadcrumbs-item" th:replace="~{fragments/breadcrumb_books_fragment :: breadcrumbBooksFragment}"><a href="/genres/index.html">Книги</a>
           </li>
           <li class="breadcrumbs-item breadcrumbs-item_current"><span>Мара и морок</span>
           </li>
@@ -311,7 +311,7 @@
                         </svg></span>
                       <input name="rating" type="radio" value="5"/></span></span>
                 </div>
-                <div class="ProductCard-tags"><span class="ProductCard-titleProp">Тэги:</span><a href="/tags/">Современные</a>,&#32;<a href="/tags/">Психологическая проза</a>
+                <div class="ProductCard-tags"><span class="ProductCard-titleProp">Тэги:</span><a href="/tags/" th:href="@{/tags}">Современные</a>,&#32;<a href="/tags/" th:href="@{/tags}">Психологическая проза</a>
                 </div>
                 <div class="ProductCard-cost"><span class="ProductCard-titleProp">Цена:</span><span class="ProductCard-priceOld">₽300</span><span class="ProductCard-price">₽180</span>
                 </div>

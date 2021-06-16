@@ -26,9 +26,9 @@
     <div class="wrap">
       <main class="Middle-main">
         <ul class="breadcrumbs">
-          <li class="breadcrumbs-item"><a href="/index.html">Главная</a>
+          <li class="breadcrumbs-item" th:replace="~{fragments/breadcrumb_main_fragment :: breadcrumbMainFragment}"><a href="/index.html">Главная</a>
           </li>
-          <li class="breadcrumbs-item"><a href="/genres/index.html">Книги</a>
+          <li class="breadcrumbs-item" th:replace="~{fragments/breadcrumb_books_fragment :: breadcrumbBooksFragment}"><a href="/genres/index.html">Книги</a>
           </li>
           <li class="breadcrumbs-item breadcrumbs-item_current"><span>Новинки</span>
           </li>

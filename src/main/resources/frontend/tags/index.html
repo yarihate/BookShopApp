@@ -44,7 +44,7 @@
     <div class="wrap">
       <main class="Middle-main">
         <ul class="breadcrumbs">
-          <li class="breadcrumbs-item"><a href="/index.html">Главная</a>
+          <li class="breadcrumbs-item" th:replace="~{fragments/breadcrumb_main_fragment :: breadcrumbMainFragment}"><a href="/index.html">Главная</a>
           </li>
           <li class="breadcrumbs-item breadcrumbs-item_current"><span>Психологическая проза</span>
           </li>
@@ -53,7 +53,7 @@
           <div class="Section-header">
             <h1 class="Section-title">Психологическая проза
             </h1>
-            <div class="Section-header-links"><a class="Section-header-link" href="/index.html#tags">Все тэги</a>
+            <div class="Section-header-links"><a class="Section-header-link" href="/index.html#tags" th:href="@{/}">Все тэги</a>
             </div>
           </div>
           <div class="Cards Cards_refresh">

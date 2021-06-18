@@ -40,6 +40,7 @@ public class AuthorsPageController {
     @GetMapping("/slug")
     public String authorsSlugPage(@RequestParam Integer authorId, @RequestParam String authorsFullName, Model model) {
         model.addAttribute("authorsFullName", authorsFullName);
+        model.addAttribute("authorId", authorId);
         model.addAttribute("authorsBooks", bookService.getBooksByAuthorId(authorId));
         return "authors/slug";
     }

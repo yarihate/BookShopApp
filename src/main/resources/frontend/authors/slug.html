@@ -117,7 +117,7 @@
               </div>
             </div>
           </div>
-          <footer class="Section-footer"><a class="Author-books" href="/books/author.html" th:href="@{/books/author(authorId=(${#lists.isEmpty(authorsBooks)} ? null : ${authorsBooks[0].getAuthor()}), authorsFullName=${authorsFullName})}">Все книги автора<span class="Author-amount" th:text="'(' + ${#lists.size(authorsBooks)} + ')'">(55)</span></a>
+          <footer class="Section-footer"><a class="Author-books" href="/books/author.html" th:href="@{/books/author(authorId=${authorId}, authorsFullName=${authorsFullName})}">Все книги автора<span class="Author-amount" th:text="'(' + ${#lists.size(authorsBooks)} + ')'">(55)</span></a>
           </footer>
         </div>
       </main>

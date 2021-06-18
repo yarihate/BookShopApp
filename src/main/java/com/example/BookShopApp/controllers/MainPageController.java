@@ -44,11 +44,6 @@ public class MainPageController {
         return "cart";
     }
 
-    @GetMapping("/signin")
-    public String signinPage() {
-        return "signin";
-    }
-
     @GetMapping("/about")
     public String aboutPage() {
         return "about";
@@ -62,10 +57,5 @@ public class MainPageController {
     @GetMapping("/contacts")
     public String contactsPage() {
         return "contacts";
-    }
-
-    @GetMapping("/documents")
-    public String documentsPage() {
-        return "documents/index";
     }
 }

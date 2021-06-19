@@ -99,7 +99,7 @@
               <span th:text="${#messages.msg('footer.lang')}">
                 Выбор языка
               </span>
-                        <select id="locales">
+                        <select id="locales" onchange="window.location.replace('?lang='+this.options[this.selectedIndex].value);">
                             <option value=" "></option>
                             <option value="en">English</option>
                             <option value="ru">Русский</option>

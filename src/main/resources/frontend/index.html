@@ -10,7 +10,7 @@
 <html class="ie9" lang="ru">
 <![endif]-->
 <!--[if gt IE 9]><!--> <html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
-<header th:replace="~{fragments/header_fragment :: headerFragment}"></header>
+<header th:replace="~{fragments/header_fragment :: headerFragment('main')}"></header>
 <head th:replace="~{fragments/head_fragment :: headFragment('Главная')}"></head>
 <body class="Site">
   <!--if lt IE 8

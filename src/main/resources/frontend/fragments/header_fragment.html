@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<header class="Header" th:fragment="headerFragment">
+<header class="Header" th:fragment="headerFragment(item)">
     <div class="Header-rowMain">
         <div class="wrap">
             <div class="row">
@@ -39,15 +39,15 @@
         <div class="wrap">
             <nav class="menuModal" id="navigate">
                 <ul class="menu menu_main">
-                    <li class="menu-item menu-item_ACTIVE"><a class="menu-link" href="/index.html" th:href="@{/}" th:text="${#messages.msg('topbar.main')}">Главная</a>
+                    <li class="menu-item" th:classappend="${item} == 'main' ? 'menu-item_ACTIVE' : ''"><a class="menu-link" href="/index.html" th:href="@{/}" th:text="${#messages.msg('topbar.main')}">Главная</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/genres/index.html" th:href="@{/genres}" th:text="${#messages.msg('topbar.genres')}">Жанры</a>
+                    <li class="menu-item" th:classappend="${item} == 'genres' ? 'menu-item_ACTIVE' : ''"><a class="menu-link" href="/genres/index.html" th:href="@{/genres}" th:text="${#messages.msg('topbar.genres')}">Жанры</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/recent.html" th:href="@{/books/recent}" th:text="${#messages.msg('topbar.recent')}">Новинки</a>
+                    <li class="menu-item" th:classappend="${item} == 'recent' ? 'menu-item_ACTIVE' : ''"><a class="menu-link" href="/books/recent.html" th:href="@{/books/recent}" th:text="${#messages.msg('topbar.recent')}">Новинки</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:href="@{/books/popular}" th:text="${#messages.msg('topbar.popular')}">Популярное</a>
+                    <li class="menu-item" th:classappend="${item} == 'popular' ? 'menu-item_ACTIVE' : ''"><a class="menu-link" href="/books/popular.html" th:href="@{/books/popular}" th:text="${#messages.msg('topbar.popular')}">Популярное</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="/authors/index.html" th:href="@{/authors}" th:text="${#messages.msg('topbar.authors')}">Авторы</a>
+                    <li class="menu-item" th:classappend="${item} == 'authors' ? 'menu-item_ACTIVE' : ''"><a class="menu-link" href="/authors/index.html" th:href="@{/authors}" th:text="${#messages.msg('topbar.authors')}">Авторы</a>
                     </li>
                 </ul>
             </nav>

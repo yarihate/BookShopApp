@@ -36,13 +36,24 @@ public class BookService {
         List<Book> books = jdbcTemplate.query("SELECT * FROM books", (ResultSet rs, int row) -> {
             Book book = new Book();
             book.setId(rs.getInt("id"));
-            book.setAuthor(rs.getInt("author_id"));
+            book.setAuthor(getAuthorById(rs.getInt("author_id")));
             book.setTitle(rs.getString("title"));
             book.setPrice(rs.getString("price"));
-            book.setPriceOld(rs.getString("priceOld"));
+            book.setPriceOld(rs.getString("price_old"));
             return book;
         });
         return new ArrayList<>(books);
+    }
+
+    private String getAuthorById(int author_id) {
+        List<Author> authors = jdbcTemplate.query("SELECT * FROM authors WHERE authors.id =" + author_id, (ResultSet rs, int rowNum) -> {
+            Author author = new Author();
+            author.setId(rs.getInt("id"));
+            author.setFirstName(rs.getString("first_name"));
+            author.setLastName(rs.getString("last_name"));
+            return author;
+        });
+        return authors.get(0).toString();
     }
 
     public List<Book> getBooksByAuthorId(Integer authorId) {
@@ -51,10 +62,10 @@ public class BookService {
         List<Book> books = jdbcTemplate.query("SELECT * FROM books where author_id = :authorId", parameterSource, (ResultSet rs, int row) -> {
             Book book = new Book();
             book.setId(rs.getInt("id"));
-            book.setAuthor(rs.getInt("author_id"));
+//            book.setAuthor(rs.get("author_id"));
             book.setTitle(rs.getString("title"));
             book.setPrice(rs.getString("price"));
-            book.setPriceOld(rs.getString("priceOld"));
+            book.setPriceOld(rs.getString("price_old"));
             return book;
         });
         return new ArrayList<>(books);

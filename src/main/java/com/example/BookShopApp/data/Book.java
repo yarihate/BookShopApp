@@ -1,22 +1,18 @@
 package com.example.BookShopApp.data;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer author;
+    @Transient
+    private String author;
     private String title;
     private String priceOld;
     private String price;
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", price='" + price + '\'' +
-                '}';
-    }
 
     public Integer getId() {
         return id;
@@ -26,11 +22,11 @@ public class Book {
         this.id = id;
     }
 
-    public Integer getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Integer author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

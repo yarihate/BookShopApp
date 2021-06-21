@@ -19,6 +19,11 @@ public class BooksPageController {
         this.bookService = bookService;
     }
 
+    @GetMapping("/slug")
+    public String booksSlugPage() {
+        return "books/slug";
+    }
+
     @GetMapping("/recent")
     public String booksRecentPage() {
         return "books/recent";

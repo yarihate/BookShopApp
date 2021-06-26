@@ -25,29 +25,29 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i = 0; i < 5; i++) {
-            createTestEntity(new TestEntity());
-        }
+//        for (int i = 0; i < 5; i++) {
+//            createTestEntity(new TestEntity());
+//        }
+//
+//        // TestEntity readEntity = testEntityDao.findOne(3L);
+//        TestEntity readEntity = readTestEntityById(3L);
+//        if (readEntity != null) {
+//            Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info("read " + readEntity.toString());
+//        } else {
+//            throw new NullPointerException();
+//        }
+//
+//        TestEntity updateEntity = updateTestEntityById(5L);
+//        if (updateEntity != null) {
+//            Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info("update " + updateEntity.toString());
+//        } else {
+//            throw new NullPointerException();
+//        }
+//
+//        deleteTestEntityById(4L);
 
-        // TestEntity readEntity = testEntityDao.findOne(3L);
-        TestEntity readEntity = readTestEntityById(3L);
-        if (readEntity != null) {
-            Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info("read " + readEntity.toString());
-        } else {
-            throw new NullPointerException();
-        }
-
-        TestEntity updateEntity = updateTestEntityById(5L);
-        if (updateEntity != null) {
-            Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info("update " + updateEntity.toString());
-        } else {
-            throw new NullPointerException();
-        }
-
-        deleteTestEntityById(4L);
-
-        Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info(bookRepository.findBooksByAuthor_FirstName("Giselle").toString());
-        Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info(bookRepository.customFindAllBooks().toString());
+    //    Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info(bookRepository.findBooksByAuthor_FirstName("Giselle").toString());
+    //    Logger.getLogger(CommandLineRunnerImpl.class.getSimpleName()).info(bookRepository.customFindAllBooks().toString());
     }
 
     private void deleteTestEntityById(Long id) {

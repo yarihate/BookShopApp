@@ -1,7 +1,7 @@
 package com.example.BookShopApp.controllers;
 
-import com.example.BookShopApp.data.Book;
 import com.example.BookShopApp.data.BookService;
+import com.example.BookShopApp.data.model.book.BookEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class MainPageController {
     }
 
     @ModelAttribute("recommendedBooks")
-    public List<Book> recommendedBooks() {
+    public List<BookEntity> recommendedBooks() {
         return bookService.getBooksData();
     }
 

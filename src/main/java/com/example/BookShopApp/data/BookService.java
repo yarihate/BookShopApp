@@ -1,5 +1,6 @@
 package com.example.BookShopApp.data;
 
+import com.example.BookShopApp.data.model.book.BookEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,12 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getBooksData() {
+    public List<BookEntity> getBooksData() {
         return bookRepository.findAll();
     }
 
-    public List<Book> getBooksByAuthorId(Integer authorId) {
-        return bookRepository.findBooksByAuthor_Id(authorId);
+    public List<BookEntity> getBooksByAuthorId(Integer authorId) {
+        return null;
+        //return bookRepository.findBooksByAuthor_Id(authorId);
     }
 }

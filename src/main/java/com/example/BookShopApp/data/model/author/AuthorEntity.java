@@ -1,9 +1,13 @@
 package com.example.BookShopApp.data.model.author;
 
+import com.example.BookShopApp.data.model.book.BookEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "authors")
@@ -24,6 +28,10 @@ public class AuthorEntity {
     @Column(columnDefinition = "TEXT")
     @ApiModelProperty("author description")
     private String description;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author")
+    private List<BookEntity> bookList = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -63,5 +71,13 @@ public class AuthorEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<BookEntity> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<BookEntity> bookList) {
+        this.bookList = bookList;
     }
 }

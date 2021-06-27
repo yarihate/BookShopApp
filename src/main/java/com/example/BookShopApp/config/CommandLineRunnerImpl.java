@@ -1,13 +1,11 @@
 package com.example.BookShopApp.config;
 
-import com.example.BookShopApp.data.BookRepository;
-import com.example.BookShopApp.data.TestEntity;
-import com.example.BookShopApp.data.TestEntityCrudRepository;
+import com.example.BookShopApp.data.repositories.BookRepository;
+import com.example.BookShopApp.data.model.TestEntity;
+import com.example.BookShopApp.data.repositories.TestEntityCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.logging.Logger;
 
 // test Hibernate and Spring Data JPA
 @Configuration

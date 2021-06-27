@@ -1,4 +1,4 @@
-package com.example.BookShopApp.data;
+package com.example.BookShopApp.data.model;
 
 import javax.persistence.*;
 

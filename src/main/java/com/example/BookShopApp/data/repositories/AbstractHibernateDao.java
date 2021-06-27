@@ -1,4 +1,4 @@
-package com.example.BookShopApp.data;
+package com.example.BookShopApp.data.repositories;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;

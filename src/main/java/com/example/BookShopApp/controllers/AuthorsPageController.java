@@ -3,19 +3,19 @@ package com.example.BookShopApp.controllers;
 import com.example.BookShopApp.data.services.AuthorService;
 import com.example.BookShopApp.data.services.BookService;
 import com.example.BookShopApp.data.model.author.AuthorEntity;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/authors")
+@Api(description = "authors data")
 public class AuthorsPageController {
 
     private final AuthorService authorService;
@@ -33,6 +33,7 @@ public class AuthorsPageController {
     }
 
     @GetMapping()
+    @ApiOperation("method to get map of authors")
     public String authorsPage() {
         return "/authors/index";
     }
@@ -43,5 +44,11 @@ public class AuthorsPageController {
         model.addAttribute("authorId", authorId);
         model.addAttribute("authorsBooks", bookService.getBooksByAuthorId(authorId));
         return "authors/slug";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public Map<String, List<AuthorEntity>> test(){
+        return authorService.getAuthorsData();
     }
 }

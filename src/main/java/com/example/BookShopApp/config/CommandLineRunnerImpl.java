@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 // test Hibernate and Spring Data JPA
-@Configuration
+//@Configuration
 public class CommandLineRunnerImpl implements CommandLineRunner {
     //    EntityManagerFactory entityManagerFactory;
 //    TestEntityDao testEntityDao;

@@ -1,5 +1,7 @@
 package com.example.BookShopApp.controllers;
 
+
+import com.example.BookShopApp.data.dto.RecommendedBooksPageDto;
 import com.example.BookShopApp.data.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/books")
@@ -39,5 +42,11 @@ public class BooksPageController {
         model.addAttribute("authorsFullName", authorsFullName);
         model.addAttribute("authorsBooks", bookService.getBooksByAuthorId(authorId));
         return "books/author";
+    }
+
+    @GetMapping("/recommended")
+    @ResponseBody
+    public RecommendedBooksPageDto booksRecommendedPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new RecommendedBooksPageDto(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
     }
 }

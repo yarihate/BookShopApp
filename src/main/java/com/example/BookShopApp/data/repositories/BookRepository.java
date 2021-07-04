@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
@@ -31,4 +33,7 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     List<BookEntity> getBooksWithMaxDiscount();
 
     Page<BookEntity> findBookByTitleContaining(String bookTitle, Pageable nextPage);
+
+    @Query("FROM BookEntity b WHERE (CAST(:from AS date)  is null or b.pubDate > :from) and (CAST(:to AS date)is null or b.pubDate < :to) order by b.pubDate desc")
+    Page<BookEntity> findBooksByPubDateIsBetweenOrderByPubDateDescIdAsc(@Param("from") LocalDate from, @Param("to") LocalDate to, Pageable nextPage);
 }

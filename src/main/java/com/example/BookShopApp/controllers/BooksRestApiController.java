@@ -1,16 +1,19 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.dto.BooksPageDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -53,5 +56,14 @@ public class BooksRestApiController {
     @ApiOperation("get bestsellers book (where is_bestseller = 1)")
     public ResponseEntity<List<BookEntity>> bestSellerBooks() {
         return ResponseEntity.ok(bookService.getBestsellers());
+    }
+
+    @GetMapping("/books/recent")
+    @ApiOperation("get books by pub_date desc")
+    public BooksPageDto booksByPubDate(@RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate from,
+                                       @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate to,
+                                       @RequestParam("offset") Integer offset,
+                                       @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getBooksByPubDate(from, to, offset, limit).getContent());
     }
 }

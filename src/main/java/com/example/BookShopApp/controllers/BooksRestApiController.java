@@ -66,4 +66,12 @@ public class BooksRestApiController {
                                        @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getBooksByPubDate(from, to, offset, limit).getContent());
     }
+
+
+    @GetMapping("/books/popular")
+    @ApiOperation("get most popular books")
+    public BooksPageDto popularBooks(@RequestParam("offset") Integer offset,
+                                     @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getPopularBooks(offset, limit).getContent());
+    }
 }

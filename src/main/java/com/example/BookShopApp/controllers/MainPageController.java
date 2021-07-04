@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,16 @@ public class MainPageController {
     @ModelAttribute("recommendedBooks")
     public List<BookEntity> recommendedBooks() {
         return bookService.getPageOfRecommendedBooks(0, 6).getContent();
+    }
+
+    @ModelAttribute("recentBooks")
+    public List<BookEntity> recentBooks() {
+        return bookService.getBooksByPubDate(LocalDate.now().minusMonths(1), LocalDate.now(), 0, 6).getContent();
+    }
+
+    @ModelAttribute("popularBooks")
+    public List<BookEntity> popularBooks() {
+        return bookService.getPopularBooks(0, 6).getContent();
     }
 
     @ModelAttribute("searchWordDto")

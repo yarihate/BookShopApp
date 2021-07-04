@@ -66,4 +66,9 @@ public class BookService {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByPubDateIsBetweenOrderByPubDateDescIdAsc(from, to, nextPage);
     }
+
+    public Page<BookEntity> getPopularBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findPopularBooks(nextPage);
+    }
 }

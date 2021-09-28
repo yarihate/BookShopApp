@@ -8,17 +8,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(description = "book data api")
+@Api("book data api")
 public class BooksRestApiController {
 
     private final BookService bookService;
@@ -73,5 +70,13 @@ public class BooksRestApiController {
     public BooksPageDto popularBooks(@RequestParam("offset") Integer offset,
                                      @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getPopularBooks(offset, limit).getContent());
+    }
+
+    @GetMapping("/books/tag/{id}")
+    @ApiOperation("get books by tag")
+    public BooksPageDto booksByTag(@PathVariable("id") Long id,
+                                   @RequestParam("offset") Integer offset,
+                                   @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getBooksByTag(id, offset, limit).getContent());
     }
 }

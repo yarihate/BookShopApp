@@ -3,24 +3,28 @@ package com.example.BookShopApp.controllers;
 import com.example.BookShopApp.data.dto.BooksPageDto;
 import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
+import com.example.BookShopApp.data.model.tag.TagEntity;
 import com.example.BookShopApp.data.services.BookService;
+import com.example.BookShopApp.data.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainPageController {
 
     private final BookService bookService;
+    private final TagService tagService;
 
     @Autowired
-    public MainPageController(BookService bookService) {
+    public MainPageController(BookService bookService, TagService tagService) {
         this.bookService = bookService;
+        this.tagService = tagService;
     }
 
     @ModelAttribute("recommendedBooks")
@@ -30,7 +34,13 @@ public class MainPageController {
 
     @ModelAttribute("recentBooks")
     public List<BookEntity> recentBooks() {
-        return bookService.getBooksByPubDate(LocalDate.now().minusMonths(1), LocalDate.now(), 0, 6).getContent();
+        return bookService.getBooksByPubDate(null, null, 0, 6).getContent();
+    }
+
+    @ModelAttribute("tags")
+    public Map<TagEntity, String> tags() {
+        List<TagEntity> tags = tagService.getTagsRateData();
+        return tagService.createRangedMap(tags);
     }
 
     @ModelAttribute("popularBooks")

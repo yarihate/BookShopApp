@@ -71,4 +71,9 @@ public class BookService {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findPopularBooks(nextPage);
     }
+
+    public Page<BookEntity> getBooksByTag(Long id, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByTag(id, nextPage);
+    }
 }

@@ -38,14 +38,18 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     Page<BookEntity> findBooksByPubDateIsBetweenOrderByPubDateDescIdAsc(@Param("from") LocalDate from, @Param("to") LocalDate to, Pageable nextPage);
 
     @Query(value = "select b.*,\n" +
-            "       count(b2ut1.id) + (0.7 * count(b2ut2.id)) + (0.4 * count(b2ut3.id)) as popularity\n" +
-            "from\n" +
-            "    books b\n" +
-            "        left join book2user b2u on b.id = b2u.book_id\n" +
-            "        left join book2user_type b2ut1 on b2u.type_id = b2ut1.id and b2u.type_id = 3\n" +
-            "        left join book2user_type b2ut2 on b2u.type_id = b2ut2.id and b2u.type_id = 2\n" +
-            "        left join book2user_type b2ut3 on b2u.type_id = b2ut3.id and b2u.type_id = 1\n" +
-            "group by b.id\n" +
+            "       count(b2ut1.id) + (0.7 * count(b2ut2.id)) + (0.4 * count(b2ut3.id)) as popularity " +
+            "from " +
+            "    books b " +
+            "        left join book2user b2u on b.id = b2u.book_id " +
+            "        left join book2user_type b2ut1 on b2u.type_id = b2ut1.id and b2u.type_id = 3 " +
+            "        left join book2user_type b2ut2 on b2u.type_id = b2ut2.id and b2u.type_id = 2 " +
+            "        left join book2user_type b2ut3 on b2u.type_id = b2ut3.id and b2u.type_id = 1 " +
+            "group by b.id " +
             "order by popularity desc ", nativeQuery = true)
     Page<BookEntity> findPopularBooks(Pageable nextPage);
+
+    @Query(value = "select b.* FROM books b join book2tag b2t on b2t.book_id = b.id join tags t on t.id = b2t.tag_id " +
+            "WHERE t.id = :id", nativeQuery = true)
+    Page<BookEntity> findBooksByTag(@Param("id") Long id, Pageable nextPage);
 }

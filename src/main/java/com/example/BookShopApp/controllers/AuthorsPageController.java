@@ -1,8 +1,8 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.model.author.AuthorEntity;
 import com.example.BookShopApp.data.services.AuthorService;
 import com.example.BookShopApp.data.services.BookService;
-import com.example.BookShopApp.data.model.author.AuthorEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/authors")
-@Api(description = "authors data")
+@Api("authors data")
 public class AuthorsPageController {
 
     private final AuthorService authorService;
@@ -48,7 +48,7 @@ public class AuthorsPageController {
 
     @GetMapping("/test")
     @ResponseBody
-    public Map<String, List<AuthorEntity>> test(){
+    public Map<String, List<AuthorEntity>> test() {
         return authorService.getAuthorsData();
     }
 }

@@ -79,4 +79,11 @@ public class BooksRestApiController {
                                    @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getBooksByTag(id, offset, limit).getContent());
     }
+
+    @GetMapping("/books/genre/{genreName}")
+    public BooksPageDto genresSlugPage(@PathVariable(value = "genreName") String genreName,
+                                       @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                       @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        return new BooksPageDto(bookService.receivePageOfBooksWithSpecificGenre(genreName, offset, limit).getContent());
+    }
 }

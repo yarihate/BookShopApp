@@ -36,8 +36,8 @@
         <h1 class="Middle-title" th:text="${authorsFullName}">Борис Васильевич Бедный
         </h1>
         <div class="Section">
-          <div class="Cards Cards_refresh" th:each="book : ${authorsBooks}">
-            <div class="Card">
+          <div class="Cards Cards_refresh">
+            <div class="Card" th:each="book : ${authorsBooks}">
               <div class="Card-picture"><a href="#"><img src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
               </div>
               <div class="Card-content">
@@ -49,7 +49,8 @@
                 </div>
               </div>
             </div>
-            <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" data-refreshshow="author" data-refreshoffset="20" data-refreshlimit="20" data-refreshid="10">Показать еще</a>
+            <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" data-refreshshow="author" data-refreshoffset="0" data-refreshlimit="5" data-refreshid="10"
+                                                             th:attr="data-refreshid=${authorsFullName}">Показать еще</a>
             </div>
           </div>
         </div>

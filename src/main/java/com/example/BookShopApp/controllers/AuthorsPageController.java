@@ -1,8 +1,8 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.author.AuthorEntity;
 import com.example.BookShopApp.data.services.AuthorService;
-import com.example.BookShopApp.data.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,15 @@ import java.util.Map;
 public class AuthorsPageController {
 
     private final AuthorService authorService;
-    private final BookService bookService;
 
     @Autowired
-    public AuthorsPageController(AuthorService authorService, BookService bookService) {
+    public AuthorsPageController(AuthorService authorService) {
         this.authorService = authorService;
-        this.bookService = bookService;
+    }
+
+    @ModelAttribute("searchWordDto")
+    public SearchWordDto searchWordDto() {
+        return new SearchWordDto();
     }
 
     @ModelAttribute("authorsMap")
@@ -40,9 +43,7 @@ public class AuthorsPageController {
 
     @GetMapping("/slug")
     public String authorsSlugPage(@RequestParam Integer authorId, @RequestParam String authorsFullName, Model model) {
-        model.addAttribute("authorsFullName", authorsFullName);
-        model.addAttribute("authorId", authorId);
-        model.addAttribute("authorsBooks", bookService.getBooksByAuthorId(authorId));
+        model.addAttribute("author", authorService.getAuthorById(authorId));
         return "authors/slug";
     }
 

@@ -1,5 +1,8 @@
 package com.example.BookShopApp.data.model.book.file;
 
+import com.example.BookShopApp.data.model.book.BookEntity;
+import com.example.BookShopApp.data.model.enums.BookFileType;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,22 @@ public class BookFileEntity {
     private int typeId;
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String path;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private BookEntity bookEntity;
+
+    public BookEntity getBookEntity() {
+        return bookEntity;
+    }
+
+    public String getBookFileExtensionString() {
+        return BookFileType.getExtensionStringByTypeId(typeId);
+    }
+
+    public void setBookEntity(BookEntity bookEntity) {
+        this.bookEntity = bookEntity;
+    }
 
     public int getId() {
         return id;

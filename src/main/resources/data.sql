@@ -2408,3 +2408,8 @@ insert into book2genre (id, book_id, genre_id) values (997, 879, 41);
 insert into book2genre (id, book_id, genre_id) values (998, 284, 27);
 insert into book2genre (id, book_id, genre_id) values (999, 85, 24);
 insert into book2genre (id, book_id, genre_id) values (1000, 422, 5);
+
+
+insert into book_file(id, hash, type_id, path, book_id) values (1, 'fghfgjgfhjkghk1', 1, '/1.pdf', 3);
+insert into book_file(id, hash, type_id, path, book_id) values (2, 'fghfgjgfhjkghk2',2, '/1.epub', 3);
+insert into book_file(id, hash, type_id, path, book_id) values (3, 'fghfgjgfhjkghk3',3, '/1.fb2', 3);

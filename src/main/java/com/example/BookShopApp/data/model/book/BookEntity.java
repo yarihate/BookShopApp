@@ -1,6 +1,7 @@
 package com.example.BookShopApp.data.model.book;
 
 import com.example.BookShopApp.data.model.author.AuthorEntity;
+import com.example.BookShopApp.data.model.book.file.BookFileEntity;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -58,6 +61,17 @@ public class BookEntity {
     @JsonGetter("authors")
     public String authorsFullName() {
         return author.toString();
+    }
+
+    @OneToMany(mappedBy = "bookEntity")
+    private List<BookFileEntity> bookFileEntityList = new ArrayList<>();
+
+    public List<BookFileEntity> getBookFileEntityList() {
+        return bookFileEntityList;
+    }
+
+    public void setBookFileEntityList(List<BookFileEntity> bookFileEntityList) {
+        this.bookFileEntityList = bookFileEntityList;
     }
 
     public int getId() {

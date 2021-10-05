@@ -4,6 +4,7 @@ import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.model.genre.GenreEntity;
 import com.example.BookShopApp.data.repositories.BookRepository;
 import com.example.BookShopApp.data.repositories.GenreRepository;
+import com.example.BookShopApp.errs.BookStoreApiWrongParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +40,17 @@ public class BookService {
         return bookRepository.findBooksByAuthorNameContaining(authorName);
     }
 
-    public List<BookEntity> getBooksByTitle(String title) {
-        return bookRepository.findBooksByTitleContaining(title);
+    public List<BookEntity> getBooksByTitle(String title) throws BookStoreApiWrongParameterException {
+        if(title.isBlank()){
+            throw new BookStoreApiWrongParameterException("Wrong values passed to one or more parameters");
+        } else {
+            List<BookEntity> data = bookRepository.findBooksByTitleContaining(title);
+            if(data.size() > 0){
+                return data;
+            }else {
+                throw new BookStoreApiWrongParameterException("No data found with specified parameters");
+            }
+        }
     }
 
     public List<BookEntity> getBooksWithPriceBetween(Integer min, Integer max) {

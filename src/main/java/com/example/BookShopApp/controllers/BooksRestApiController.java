@@ -1,16 +1,21 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.ApiResponse;
 import com.example.BookShopApp.data.dto.BooksPageDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.services.BookService;
+import com.example.BookShopApp.errs.BookStoreApiWrongParameterException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -33,8 +38,15 @@ public class BooksRestApiController {
 
     @GetMapping("/books/by-title")
     @ApiOperation("get books by book title")
-    public ResponseEntity<List<BookEntity>> booksByTitle(@RequestParam("title") String title) {
-        return ResponseEntity.ok(bookService.getBooksByTitle(title));
+    public ResponseEntity<ApiResponse<BookEntity>> booksByTitle(@RequestParam("title") String title) throws BookStoreApiWrongParameterException {
+        ApiResponse<BookEntity> response = new ApiResponse<>();
+        List<BookEntity> data = bookService.getBooksByTitle(title);
+        response.setDebugMessage("successful request");
+        response.setMessage("data size: " + data.size() + " elements");
+        response.setHttpStatus(HttpStatus.OK);
+        response.setTimeStamp(LocalDateTime.now());
+        response.setData(data);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/books/by-price-range")

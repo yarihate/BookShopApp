@@ -71,6 +71,19 @@ public class BookEntity {
     @JsonIgnore
     private List<BookStatus> statuses = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "book")
+    @ApiModelProperty("book rating")
+    private List<BookRatingEntity> rating = new ArrayList<>();
+
+    public List<BookRatingEntity> getRating() {
+        return rating;
+    }
+
+    public void setRating(List<BookRatingEntity> rating) {
+        this.rating = rating;
+    }
+
     public List<BookStatus> getStatuses() {
         return statuses;
     }

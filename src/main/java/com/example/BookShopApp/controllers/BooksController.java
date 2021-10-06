@@ -4,6 +4,7 @@ import com.example.BookShopApp.data.ResourceStorage;
 import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.repositories.BookRepository;
+import com.example.BookShopApp.data.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -23,11 +24,13 @@ import java.util.logging.Logger;
 public class BooksController {
     private BookRepository bookRepository;
     private final ResourceStorage storage;
+    private final RatingService ratingService;
 
     @Autowired
-    public BooksController(BookRepository bookRepository, ResourceStorage storage) {
+    public BooksController(BookRepository bookRepository, ResourceStorage storage, RatingService ratingService) {
         this.bookRepository = bookRepository;
         this.storage = storage;
+        this.ratingService = ratingService;
     }
 
     //todo ask the question
@@ -40,6 +43,7 @@ public class BooksController {
     public String bookPage(@PathVariable("slug") String slug, Model model) {
         BookEntity bookEntity = bookRepository.findBookBySlug(slug);
         model.addAttribute("slugBook", bookEntity);
+        model.addAttribute("bookRating", ratingService.receiveBookRating(slug));
         return "books/slug";
     }
 

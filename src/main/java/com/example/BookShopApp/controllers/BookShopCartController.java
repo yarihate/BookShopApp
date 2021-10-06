@@ -1,10 +1,12 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.BookRateValue;
 import com.example.BookShopApp.data.dto.BookStatusDto;
 import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.model.enums.BookStatus;
 import com.example.BookShopApp.data.repositories.BookRepository;
+import com.example.BookShopApp.data.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ public class BookShopCartController {
     }
 
     private final BookRepository bookRepository;
+    private final RatingService ratingService;
 
     @ModelAttribute(name = "bookCart")
     public List<BookEntity> bookCart() {
@@ -43,8 +46,9 @@ public class BookShopCartController {
 
     private static final String CART_CONTENTS_COOKIE_NAME = "cartContents";
     @Autowired
-    public BookShopCartController(BookRepository bookRepository) {
+    public BookShopCartController(BookRepository bookRepository, RatingService ratingService) {
         this.bookRepository = bookRepository;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/cart")
@@ -105,6 +109,12 @@ public class BookShopCartController {
             model.addAttribute("isCartEmpty", true);
         }
         return "redirect:/books/cart";
+    }
+
+    @PostMapping("/changeBookStatus/rating/{slug}")
+    public String addRatingValue(@RequestBody BookRateValue bookRateValue, @PathVariable("slug") String slug) {
+        ratingService.addRateIntoOverallRating(slug, bookRateValue.getValue());
+        return "redirect:/books/" + slug;
     }
 
     private void addBookToCookieContentBySlug(String stringFromCookie, String cookieName, String bookSlug,

@@ -2,6 +2,7 @@ package com.example.BookShopApp.data.model.book;
 
 import com.example.BookShopApp.data.model.author.AuthorEntity;
 import com.example.BookShopApp.data.model.book.file.BookFileEntity;
+import com.example.BookShopApp.data.model.book.review.BookReviewEntity;
 import com.example.BookShopApp.data.model.enums.BookStatus;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -75,6 +76,19 @@ public class BookEntity {
     @OneToMany(mappedBy = "book")
     @ApiModelProperty("book rating")
     private List<BookRatingEntity> rating = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "book")
+    @ApiModelProperty("book reviews")
+    private List<BookReviewEntity> reviews = new ArrayList<>();
+
+    public List<BookReviewEntity> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<BookReviewEntity> reviews) {
+        this.reviews = reviews;
+    }
 
     public List<BookRatingEntity> getRating() {
         return rating;

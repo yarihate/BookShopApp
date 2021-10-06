@@ -1,5 +1,7 @@
 package com.example.BookShopApp.data.model.book.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,9 +14,6 @@ public class BookReviewLikeEntity {
     private int id;
 
     @Column(columnDefinition = "INT NOT NULL")
-    private int reviewId;
-
-    @Column(columnDefinition = "INT NOT NULL")
     private int userId;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
@@ -23,20 +22,25 @@ public class BookReviewLikeEntity {
     @Column(columnDefinition = "SMALLINT NOT NULL")
     private short value;
 
+    @ManyToOne
+    @JoinColumn(name = "review_id", nullable = false)
+    @JsonIgnore
+    private BookReviewEntity review;
+
+    public BookReviewEntity getReview() {
+        return review;
+    }
+
+    public void setReview(BookReviewEntity review) {
+        this.review = review;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
     }
 
     public int getUserId() {

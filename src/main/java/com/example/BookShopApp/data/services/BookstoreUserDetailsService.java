@@ -27,4 +27,13 @@ public class BookstoreUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("user not found");
         }
     }
+
+    public UserDetails loadUserByUsernameJwt(String s) throws UsernameNotFoundException {
+        BookstoreUser bookstoreUser = bookstoreUserRepository.findBookstoreUserByName(s);
+        if (bookstoreUser != null) {
+            return new BookstoreUserDetails(bookstoreUser);
+        } else {
+            throw new UsernameNotFoundException("user not found");
+        }
+    }
 }

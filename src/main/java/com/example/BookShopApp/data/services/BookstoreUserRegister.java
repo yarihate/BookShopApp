@@ -2,6 +2,7 @@ package com.example.BookShopApp.data.services;
 
 import com.example.BookShopApp.data.model.BookstoreUser;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;
+import com.example.BookShopApp.data.services.jwt.JWTUtil;
 import com.example.BookShopApp.security.BookstoreUserDetails;
 import com.example.BookShopApp.security.ContactConfirmationPayload;
 import com.example.BookShopApp.security.ContactConfirmationResponse;
@@ -20,12 +21,16 @@ public class BookstoreUserRegister {
     private final BookstoreUserRepository bookstoreUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final BookstoreUserDetailsService bookstoreUserDetailsService;
+    private final JWTUtil jwtUtil;
 
     @Autowired
-    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
         this.bookstoreUserRepository = bookstoreUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.bookstoreUserDetailsService = bookstoreUserDetailsService;
+        this.jwtUtil = jwtUtil;
     }
 
     public void registerNewUser(RegistrationForm registrationForm) {
@@ -45,7 +50,7 @@ public class BookstoreUserRegister {
                 payload.getCode()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         ContactConfirmationResponse response = new ContactConfirmationResponse();
-        response.setResult(true);
+        response.setResult("true");
         return response;
     }
 
@@ -53,5 +58,15 @@ public class BookstoreUserRegister {
         BookstoreUserDetails userDetails = (BookstoreUserDetails) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         return userDetails.getBookstoreUser();
+    }
+
+    public ContactConfirmationResponse jwtLogin(ContactConfirmationPayload payload) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getContact(),
+                payload.getCode()));
+        BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(payload.getContact());
+        String jwtToken = jwtUtil.generateToken(userDetails);
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        response.setResult(jwtToken);
+        return response;
     }
 }

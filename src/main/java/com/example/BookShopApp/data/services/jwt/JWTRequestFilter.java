@@ -1,8 +1,10 @@
 package com.example.BookShopApp.data.services.jwt;
 
+import com.example.BookShopApp.data.repositories.JWTTokenBlackList;
 import com.example.BookShopApp.data.services.BookstoreUserDetailsService;
 import com.example.BookShopApp.security.BookstoreUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -20,11 +22,14 @@ import java.io.IOException;
 public class JWTRequestFilter extends OncePerRequestFilter {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
+    private final JWTTokenBlackList jwtTokenBlackList;
+
 
     @Autowired
-    public JWTRequestFilter(BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
+    public JWTRequestFilter(BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, JWTTokenBlackList jwtTokenBlackList) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
+        this.jwtTokenBlackList = jwtTokenBlackList;
     }
 
     @Override
@@ -37,6 +42,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                 if (cookie.getName().equals("token")) {
                     token = cookie.getValue();
                     username = jwtUtil.extractUsername(token);
+                    String tokenId = jwtUtil.extractId(token);
+
+                    if (jwtTokenBlackList.get(tokenId) != null) {
+                        throw new AccessDeniedException("Token is in the blacklist");
+                    }
                 }
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

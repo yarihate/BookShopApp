@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service
@@ -23,6 +24,7 @@ public class JWTUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setId(UUID.randomUUID().toString())
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
@@ -44,6 +46,9 @@ public class JWTUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
+    public String extractId(String token) {
+        return extractClaim(token, Claims::getId);
+    }
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);

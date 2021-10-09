@@ -32,6 +32,7 @@ public class GlobalExceptionHandlerController {
         redirectAttributes.addFlashAttribute("searchError", ex);
         return "redirect:/";
     }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public String handleUsernameNotFoundException(UsernameNotFoundException ex, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("UsernameNotFoundError", ex);

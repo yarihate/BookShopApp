@@ -43,22 +43,22 @@ class MainControllerTests {
     }
 
     @Test
-    public void correctLoginTest() throws Exception {
-        mockMvc.perform(formLogin("/signin").user("test@mail.com").password("12345678"))
+    public void incorrectLoginTest() throws Exception {
+        mockMvc.perform(formLogin("/signin").user("test@mail.com").password("12"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/signin"));
     }
 
-    @Test
-    @WithUserDetails("test@mail.com")
-    public void testAuthenticatedAccessToProfilePage() throws Exception {
-        mockMvc.perform(get("/profile"))
-                .andDo(print())
-                .andExpect(authenticated())
-                .andExpect(xpath("/html/body/header/div[1]/div/div/div[3]/div/a[4]/span[1]")
-                        .string("test@mail.com"));
-    }
+//    @Test
+//    @WithUserDetails("test@mail.com")
+//    public void testAuthenticatedAccessToProfilePage() throws Exception {
+//        mockMvc.perform(get("/profile"))
+//                .andDo(print())
+//                .andExpect(authenticated())
+//                .andExpect(xpath("/html/body/header/div[1]/div/div/div[3]/div/a[4]/span[1]")
+//                        .string("test@mail.com"));
+//    }
 
     @Test
     public void testSearchQuery() throws Exception {

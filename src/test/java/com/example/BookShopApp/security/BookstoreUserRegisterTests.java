@@ -1,4 +1,4 @@
-package com.example.BookShopApp;
+package com.example.BookShopApp.security;
 
 import com.example.BookShopApp.data.model.BookstoreUser;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;

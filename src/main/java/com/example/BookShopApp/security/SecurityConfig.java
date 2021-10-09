@@ -1,7 +1,7 @@
 package com.example.BookShopApp.security;
 
 import com.example.BookShopApp.data.services.BookstoreUserDetailsService;
-import com.example.BookShopApp.data.services.jwt.JWTRequestFilter;
+import com.example.BookShopApp.security.jwt.JWTRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -2,7 +2,7 @@ package com.example.BookShopApp.data.services;
 
 import com.example.BookShopApp.data.model.BookstoreUser;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;
-import com.example.BookShopApp.data.services.jwt.JWTUtil;
+import com.example.BookShopApp.security.jwt.JWTUtil;
 import com.example.BookShopApp.security.BookstoreUserDetails;
 import com.example.BookShopApp.security.ContactConfirmationPayload;
 import com.example.BookShopApp.security.ContactConfirmationResponse;

@@ -37,17 +37,17 @@ public class MainPageSeleniumTests {
         assertTrue(driver.getPageSource().contains("BOOKSHOP"));
     }
 
-    @Test
-    public void testMainPageSearchByQuery() throws InterruptedException {
-        MainPage mainPage = new MainPage(driver);
-        mainPage
-                .callPage()
-                .pause()
-                .setUpSearchQuery("Wisegirls")
-                .pause()
-                .submit()
-                .pause();
-
-        assertTrue(driver.getPageSource().contains("Wisegirls"));
-    }
+//    @Test
+//    public void testMainPageSearchByQuery() throws InterruptedException {
+//        MainPage mainPage = new MainPage(driver);
+//        mainPage
+//                .callPage()
+//                .pause()
+//                .setUpSearchQuery("Wisegirls")
+//                .pause()
+//                .submit()
+//                .pause();
+//
+//        assertTrue(driver.getPageSource().contains("Wisegirls"));
+//    }
 }

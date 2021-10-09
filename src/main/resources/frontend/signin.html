@@ -127,6 +127,10 @@
             <div class="form-group form-group_center"><a class="Login-reg" href="/signup.html"
                                                          th:href="@{/oauth2/authorization/facebook}">Войти c Facebook</a>
             </div>
+            <span th:if="${UsernameNotFoundError}" th:text="${UsernameNotFoundError.getLocalizedMessage()}"
+                  style="color: red"></span>
+            <span th:if="${IncorrectPasswordError}" th:text="${IncorrectPasswordError.getLocalizedMessage()}"
+                  style="color: red"></span>
           </div>
         </form>
       </main>

@@ -500,16 +500,6 @@ p.error-browser
                                    th:text="${slugBook.getReviews().size()}">Кол-во отзывов</span>
                     </div>
                 </div>
-                <strong class="Comments-title">Написать отзыв
-                </strong>
-                <form name="review" method="post" action="#"
-                      th:action="${'/books/' + slugBook.slug + '/review/save'}">
-                    <p><b>Введите ваш отзыв:</b><Br>
-                        <textarea name="comment" cols="40" rows="3" id="commentarea"></textarea></p>
-                    <p>
-                        <input type="submit" value="Отправить" id="submitcomment">
-                        <input type="reset" value="Очистить"></p>
-                </form>
                 <div class="Comments" th:each="comment : ${slugBook.getReviews()}">
                     <div class="Comment">
                         <div class="Comment-column Comment-column_pict">
@@ -580,7 +570,7 @@ p.error-browser
                                                                             </p>
                                                                         </div>-->
                                     <div class="Comment-footer">
-                                        <div class="Comment-appeal">
+                                        <div th:if="${curUser != null}" class="Comment-appeal">
                                             <button class="btn btn_white btn_like" data-btntype="check" id="likebutton"
                                                     data-check="false" data-btnradio="one1" data-likeid="333"
                                                     th:attr="data-bookslug = ${slugBook.slug}, data-likeid = ${comment.id}">
@@ -599,6 +589,21 @@ p.error-browser
                                                     class="btn-content" th:text="${comment.disLikeCount()}">0</span>
                                             </button>
                                         </div>
+                                        <div th:if="${curUser == null}" class="Comment-appeal">
+                                            <span class="btn btn_white btn_like">
+                                                <span
+                                                        class="btn-icon"><img src="/assets/img/icons/comment/like.svg"
+                                                                              alt="like.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.likeCount()}">0</span>
+                                            </span>
+                                            <span class="btn btn_white btn_dislike" >
+                                                <span
+                                                        class="btn-icon"><img
+                                                        src="/assets/img/icons/comment/dislike.svg"
+                                                        alt="dislike.svg"/></span><span
+                                                    class="btn-content" th:text="${comment.disLikeCount()}">0</span>
+                                            </span>
+                                        </div>
                                         <button class="Spoiler-trigger btn btn_primary btn_nr" type="button"
                                                 data-showtext="Свернуть отзыв" data-hidetext="Показать отзыв полностью">
                                         </button>
@@ -608,6 +613,18 @@ p.error-browser
                         </div>
                     </div>
                 </div>
+            </div>
+            <strong class="Comments-title">Написать отзыв
+            </strong>
+            <div th:if="${curUser != null}">
+                <form name="review" method="post" action="#"
+                      th:action="${'/books/' + slugBook.slug + '/review/save'}">
+                    <p><b>Введите ваш отзыв:</b><Br>
+                        <textarea name="comment" cols="40" rows="3"></textarea></p>
+                    <p><input type="hidden" name="authorName" th:text="${curUser.name}" value="0">
+                        <input type="submit" value="Отправить">
+                        <input type="reset" value="Очистить"></p>
+                </form>
             </div>
         </main>
     </div>

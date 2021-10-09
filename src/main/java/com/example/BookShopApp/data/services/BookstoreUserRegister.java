@@ -56,6 +56,9 @@ public class BookstoreUserRegister {
 
     public BookstoreUser getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.equals("anonymousUser")) {
+            return null;
+        }
         if (principal instanceof BookstoreUserDetails) {
             return ((BookstoreUserDetails) principal).getBookstoreUser();
         } else if (principal instanceof DefaultOAuth2User) {

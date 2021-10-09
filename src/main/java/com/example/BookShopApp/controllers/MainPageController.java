@@ -61,11 +61,6 @@ public class MainPageController {
 
     @GetMapping("/")
     public String mainPage() {
-//        model.addAttribute("bookData", bookService.getBooksData());
-//        model.addAttribute("searchPlaceholder", "new search placeholder");
-//        model.addAttribute("serverTime", new Date());
-//        model.addAttribute("placeholderTextPart2", "SERVER");
-//        model.addAttribute("messageTemplate", "searchbar.placeholder2");
         return "index";
     }
 

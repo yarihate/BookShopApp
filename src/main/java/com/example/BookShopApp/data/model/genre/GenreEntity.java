@@ -1,6 +1,5 @@
 package com.example.BookShopApp.data.model.genre;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -22,9 +21,7 @@ public class GenreEntity {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
-//    @JsonIgnore
-//    @Transient
-@Formula("(select count(bg.book_id) from book2genre bg WHERE bg.genre_id = id)")
+    @Formula("(select count(bg.book_id) from book2genre bg WHERE bg.genre_id = id)")
     private Integer count;
 
     public int getId() {

@@ -28,10 +28,6 @@ public class BookService {
         this.genreRepository = genreRepository;
     }
 
-    public List<BookEntity> getBooksData() {
-        return bookRepository.findAll();
-    }
-
     public List<BookEntity> getBooksByAuthorId(Integer authorId) {
         return bookRepository.findBooksByAuthor_Id(authorId);
     }
@@ -55,10 +51,6 @@ public class BookService {
 
     public List<BookEntity> getBooksWithPriceBetween(Integer min, Integer max) {
         return bookRepository.findBooksByPriceOldBetween(min, max);
-    }
-
-    public List<BookEntity> getBooksWithPrice(Integer price) {
-        return bookRepository.findBooksByPriceOldIs(price);
     }
 
     public List<BookEntity> getBooksWithMaxDiscount() {

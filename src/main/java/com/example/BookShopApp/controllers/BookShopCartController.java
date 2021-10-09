@@ -92,10 +92,8 @@ public class BookShopCartController {
                                          HttpServletResponse response, Model model, @RequestBody BookStatusDto bookStatusDto) {
         if (bookStatusDto.getStatus().equals(BookStatus.CART.name())) {
             addBookToCookieContentBySlug(cartContents, CART_CONTENTS_COOKIE_NAME, slug, response, model);
-            //  changeBookStatus(slug, BookStatus.CART);
         } else if (bookStatusDto.getStatus().equals(BookStatus.KEPT.name())) {
             addBookToCookieContentBySlug(postponedContents, POSTPONED_CONTENTS_COOKIE_NAME, slug, response, model);
-            //  changeBookStatus(slug, BookStatus.KEPT);
         }
         return "redirect:/books/" + slug;
     }

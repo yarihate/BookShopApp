@@ -13,9 +13,6 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     List<BookEntity> findBooksByAuthor_Id(Integer id);
 
-    @Query("from BookEntity")
-    List<BookEntity> customFindAllBooks();
-
     List<BookEntity> findBooksByAuthorNameContaining(String authorFirstName);
 
     List<BookEntity> findBooksByTitleContaining(String bookTitle);

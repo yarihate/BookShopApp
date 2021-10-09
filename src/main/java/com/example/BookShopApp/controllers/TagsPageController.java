@@ -27,11 +27,6 @@ public class TagsPageController {
         return new SearchWordDto();
     }
 
-//    @GetMapping()
-//    public String tagsPage() {
-//        return "tags/index";
-//    }
-
     @GetMapping()
     public String tagsPage(@RequestParam int id,
                            @RequestParam String name,

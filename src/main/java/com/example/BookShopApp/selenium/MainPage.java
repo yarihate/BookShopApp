@@ -20,7 +20,7 @@ public class MainPage {
     }
 
     public MainPage pause() throws InterruptedException {
-        Thread.sleep(5000);
+        Thread.sleep(7000);
         return this;
     }
 
@@ -33,6 +33,30 @@ public class MainPage {
     public MainPage submit() {
         WebElement element = driver.findElement(By.id("search"));
         element.submit();
+        return this;
+    }
+
+    public MainPage callGenresPage() {
+        WebElement element = driver.findElement(By.linkText("Genres"));
+        element.click();
+        return this;
+    }
+
+    public MainPage callRecentPage() {
+        WebElement element = driver.findElement(By.linkText("Recent"));
+        element.click();
+        return this;
+    }
+
+    public MainPage callPopular() {
+        WebElement element = driver.findElement(By.linkText("Popular"));
+        element.click();
+        return this;
+    }
+
+    public MainPage callAuthors() {
+        WebElement element = driver.findElement(By.linkText("Authors"));
+        element.click();
         return this;
     }
 }

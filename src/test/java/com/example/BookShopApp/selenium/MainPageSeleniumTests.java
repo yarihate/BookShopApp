@@ -50,4 +50,49 @@ public class MainPageSeleniumTests {
 //
 //        assertTrue(driver.getPageSource().contains("Wisegirls"));
 //    }
+
+    @Test
+    public void invokeGenres() throws InterruptedException {
+        MainPage mainPage = new MainPage(driver);
+        mainPage
+                .callPage()
+                .pause()
+                .callGenresPage()
+                .pause();
+        assertTrue(driver.getPageSource().contains("Жанр"));
+    }
+
+    @Test
+    public void invokeRecent() throws InterruptedException {
+        MainPage mainPage = new MainPage(driver);
+        mainPage
+                .callPage()
+                .pause()
+                .callRecentPage()
+                .pause();
+        assertTrue(driver.getPageSource().contains("Новинки"));
+    }
+
+    @Test
+    public void invokePopular() throws InterruptedException {
+        MainPage mainPage = new MainPage(driver);
+        mainPage
+                .callPage()
+                .pause()
+                .callPopular()
+                .pause();
+        assertTrue(driver.getPageSource().contains("Популярное"));
+    }
+
+    @Test
+    public void invokeAuthors() throws InterruptedException {
+        MainPage mainPage = new MainPage(driver);
+        mainPage
+                .callPage()
+                .pause()
+                .callAuthors()
+                .pause();
+        assertTrue(driver.getPageSource().contains("Authors"));
+    }
+
 }

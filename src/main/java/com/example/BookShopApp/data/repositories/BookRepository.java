@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
-    //List<BookEntity> findBooksByAuthor_FirstName(String name);
-
     List<BookEntity> findBooksByAuthor_Id(Integer id);
 
     @Query("from BookEntity")

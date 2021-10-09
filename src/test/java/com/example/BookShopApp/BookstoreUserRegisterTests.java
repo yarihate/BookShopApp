@@ -37,7 +37,7 @@ class BookStoreUserRegisterTests {
         registrationForm = new RegistrationForm();
         registrationForm.setEmail("test@mail.com");
         registrationForm.setName("Tester");
-        registrationForm.setPassword("12345678");
+        registrationForm.setPassword("1234567");
         registrationForm.setPhone("+79111111111");
     }
 

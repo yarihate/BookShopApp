@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,10 +54,18 @@ public class BookstoreUserRegister {
         return response;
     }
 
-    public Object getCurrentUser() {
-        BookstoreUserDetails userDetails = (BookstoreUserDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return userDetails.getBookstoreUser();
+    public BookstoreUser getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof BookstoreUserDetails) {
+            return ((BookstoreUserDetails) principal).getBookstoreUser();
+        } else if (principal instanceof DefaultOAuth2User) {
+            BookstoreUser bookStoreUser = new BookstoreUser();
+            bookStoreUser.setName(((DefaultOAuth2User) principal).getAttribute("name"));
+            bookStoreUser.setEmail(((DefaultOAuth2User) principal).getAttribute("email"));
+            return bookStoreUser;
+        }
+        BookstoreUserDetails bookStoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return bookStoreUserDetails.getBookstoreUser();
     }
 
     public ContactConfirmationResponse jwtLogin(ContactConfirmationPayload payload) {

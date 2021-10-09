@@ -36,4 +36,15 @@ public class BookstoreUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("user not found");
         }
     }
+
+    public BookstoreUser processOAuthPostLogin(String email, String name) {
+        BookstoreUser existUser = bookstoreUserRepository.findBookstoreUserByEmail(email);
+        if (existUser == null) {
+            BookstoreUser newUser = new BookstoreUser();
+            newUser.setEmail(email);
+            newUser.setName(name);
+            return bookstoreUserRepository.save(newUser);
+        }
+        return existUser;
+    }
 }

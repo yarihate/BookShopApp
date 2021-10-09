@@ -125,7 +125,7 @@
             <div class="form-group form-group_center"><a class="Login-reg" href="/signup.html" th:href="@{/signup}">Зарегистрироваться</a>
             </div>
             <div class="form-group form-group_center"><a class="Login-reg" href="/signup.html"
-                                                         th:href="@{/oauth2/authorization/facebook}">Войти c Facebook</a>
+                                                         th:href="@{/oauth2/authorization/google}">Войти c Google</a>
             </div>
             <span th:if="${UsernameNotFoundError}" th:text="${UsernameNotFoundError.getLocalizedMessage()}"
                   style="color: red"></span>

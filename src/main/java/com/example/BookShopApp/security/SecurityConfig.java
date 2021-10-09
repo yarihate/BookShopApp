@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -20,12 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTRequestFilter filter;
     private final CustomLogoutHandler customLogoutHandler;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     @Autowired
-    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter filter, CustomLogoutHandler customLogoutHandler) {
+    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter filter, CustomLogoutHandler customLogoutHandler, CustomAuthenticationProvider customAuthenticationProvider) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.filter = filter;
         this.customLogoutHandler = customLogoutHandler;
+        this.customAuthenticationProvider = customAuthenticationProvider;
     }
 
     @Bean
@@ -35,9 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(bookstoreUserDetailsService)
-                .passwordEncoder(getPasswordEncoder());
-        super.configure(auth);
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
     @Override
@@ -50,7 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/signin").failureUrl("/signin")
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("token").addLogoutHandler(customLogoutHandler)
                 .and().oauth2Login()
-                .and().oauth2Client();
+                .successHandler((request, response, authentication) -> {
+                    DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
+                    bookstoreUserDetailsService.processOAuthPostLogin(oauthUser.getAttribute("email"), oauthUser.getAttribute("name"));
+                    response.sendRedirect("/my");
+                });
+
 
         // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

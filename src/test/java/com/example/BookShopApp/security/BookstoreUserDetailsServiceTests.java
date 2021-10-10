@@ -26,7 +26,7 @@ public class BookstoreUserDetailsServiceTests {
 
     @Test
     void loadUserByUsername() {
-        final String userName = "test";
+        final String userName = "test2";
         UserDetails userDetails = bookstoreUserDetailsService.loadUserByUsernameJwt(userName);
         assertNotNull(userDetails);
         Assertions.assertEquals(userName, userDetails.getUsername());
@@ -37,7 +37,7 @@ public class BookstoreUserDetailsServiceTests {
     @Test
     void processOAuthPostLogin() {
         final String email = "test@mail.ru";
-        final String name = "test";
+        final String name = "test1";
         BookstoreUser bookStoreUser = bookstoreUserDetailsService.processOAuthPostLogin(email, name);
         assertNotNull(bookStoreUser);
         Assertions.assertEquals(name, bookStoreUser.getName());

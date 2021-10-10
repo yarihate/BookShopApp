@@ -1,3 +1,6 @@
+insert into users(id,email, name, password, phone)
+values(1, 'test@mail.com', 'test', '$2a$10$t8P.BeQ1SFm.UK/q2n3jqOIC7Byn0PTsMZe/VUjqx3lr/zZZr2Ie6', '89011111111');
+
 insert into authors (id, photo, slug, name, description) values (1, 'http://dummyimage.com/725x363.png/5fa2dd/ffffff', 'author-dwy-496', 'Michell Cornford', 'Proin risus. Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend.');
 insert into authors (id, photo, slug, name, description) values (2, 'http://dummyimage.com/378x653.png/5fa2dd/ffffff', 'author-dqa-528', 'Kathlin Tebbs', 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.');
 insert into authors (id, photo, slug, name, description) values (3, 'http://dummyimage.com/447x293.png/ff4444/ffffff', 'author-wvy-614', 'Urban Tomik', 'Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo.');

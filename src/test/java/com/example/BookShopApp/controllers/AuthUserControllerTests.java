@@ -27,19 +27,14 @@ public class AuthUserControllerTests {
 
     @Test
     void login() throws Exception {
-        mockMvc.perform(get("/login")
+        mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new JSONObject().put("contact", "test@mail.ru").put("code", "1234567").toString()))
+                .content(new JSONObject().put("contact", "t@mail.ru").put("code", "11223344").toString()))
                 .andExpect(status().isOk());
     }
 
     @Test
     void handleUserRegistration() throws Exception {
-        RegistrationForm registrationForm = new RegistrationForm();
-        registrationForm.setEmail("test@mail.com");
-        registrationForm.setName("Tester");
-        registrationForm.setPassword("1234567");
-        registrationForm.setPhone("+79111111111");
         mockMvc.perform(post("/reg")
                 .param("name", "1")
                 .param("phone", "+7(911)1111111")

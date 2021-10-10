@@ -620,9 +620,9 @@ p.error-browser
                 <form name="review" method="post" action="#"
                       th:action="${'/books/' + slugBook.slug + '/review/save'}">
                     <p><b>Введите ваш отзыв:</b><Br>
-                        <textarea name="comment" cols="40" rows="3"></textarea></p>
+                        <textarea name="comment" cols="40" rows="3" id="commentarea"></textarea></p>
                     <p><input type="hidden" name="authorName" th:text="${curUser.name}" value="0">
-                        <input type="submit" value="Отправить">
+                        <input type="submit" value="Отправить" id="submitcomment">
                         <input type="reset" value="Очистить"></p>
                 </form>
             </div>

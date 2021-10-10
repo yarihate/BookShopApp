@@ -1,5 +1,10 @@
 insert into users(id,email, name, password, phone)
-values(1, 'test@mail.ru', 'test', '$2a$10$t8P.BeQ1SFm.UK/q2n3jqOIC7Byn0PTsMZe/VUjqx3lr/zZZr2Ie6', '89011111111');
+values(2, 'test@mail.ru', 'test1', '$2a$10$t8P.BeQ1SFm.UK/q2n3jqOIC7Byn0PTsMZe/VUjqx3lr/zZZr2Ie6', '89011111111');
+insert into users(id,email, name, password, phone)
+values(3, 't@mail.ru', 'test2', '$2a$10$ycJKchCpAUwwmK7GxT.Yu.eJtoLveUloh.cxclofHLJQ.r1qSrIhO', '89011111111');
+
+insert into users(id,email, name, password, phone)
+values(4, 'test@mail.com', 'test3', '$2a$10$t8P.BeQ1SFm.UK/q2n3jqOIC7Byn0PTsMZe/VUjqx3lr/zZZr2Ie6', '89011111111');
 
 insert into authors (id, photo, slug, name, description) values (1, 'http://dummyimage.com/725x363.png/5fa2dd/ffffff', 'author-dwy-496', 'Michell Cornford', 'Proin risus. Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend.');
 insert into authors (id, photo, slug, name, description) values (2, 'http://dummyimage.com/378x653.png/5fa2dd/ffffff', 'author-dqa-528', 'Kathlin Tebbs', 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.');
@@ -2416,3 +2421,5 @@ insert into book2genre (id, book_id, genre_id) values (1000, 422, 5);
 insert into book_file(id, hash, type_id, path, book_id) values (1, 'fghfgjgfhjkghk1', 1, '/1.pdf', 3);
 insert into book_file(id, hash, type_id, path, book_id) values (2, 'fghfgjgfhjkghk2',2, '/1.epub', 3);
 insert into book_file(id, hash, type_id, path, book_id) values (3, 'fghfgjgfhjkghk3',3, '/1.fb2', 3);
+
+insert into book_review(id, text, time, user_id, book_id) values (1, 'tests','2021-10-09 22:36:07.938546', '1', 3);

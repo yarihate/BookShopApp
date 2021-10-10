@@ -24,7 +24,7 @@ class BookRepositoryTests {
     }
 
     @Test
-    void findBooksByAuthor_FirstName() {
+    void findBookBySlug() {
         String slug = "book-ocp-206";
         BookEntity result = bookRepository.findBookBySlug(slug);
         assertEquals(slug, result.getSlug());

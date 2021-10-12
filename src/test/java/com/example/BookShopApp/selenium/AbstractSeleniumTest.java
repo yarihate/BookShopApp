@@ -16,7 +16,7 @@ public class AbstractSeleniumTest {
     @BeforeAll
     static void setUp() {
         System.setProperty("webdriver.chrome.driver",
-                "C:\\Users\\Lera\\Downloads\\chromedriver.exe");
+                AbstractSeleniumTest.class.getResource("/chromedriver.exe").getPath());
         driver = new ChromeDriver();
         driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.MINUTES);
     }

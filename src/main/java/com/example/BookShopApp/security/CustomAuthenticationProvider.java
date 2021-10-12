@@ -1,5 +1,6 @@
 package com.example.BookShopApp.security;
 
+import com.example.BookShopApp.aop.annotations.AuthenticationExceptionTraceable;
 import com.example.BookShopApp.data.model.BookstoreUser;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         this.bookstoreUserRepository = bookstoreUserRepository;
     }
 
+    @AuthenticationExceptionTraceable
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {

@@ -54,6 +54,9 @@ public class RatingService {
 
     public RatingDto receiveBookRating(String slug) {
         BookEntity bookBySlug = bookRepository.findBookBySlug(slug);
+        if(bookBySlug == null){
+            return new RatingDto();
+        }
         List<IBookRatingCount> ratingCount = bookRatingRepository.countBookRatesCount(bookBySlug.getId());
         RatingDto ratingDto = new RatingDto();
         ratingDto.setRatingOverallCount((int) bookRatingRepository.countByBookSlug(slug));

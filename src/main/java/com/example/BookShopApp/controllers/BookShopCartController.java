@@ -1,6 +1,7 @@
 package com.example.BookShopApp.controllers;
 
 import com.example.BookShopApp.data.BookRateValue;
+import com.example.BookShopApp.data.Sum;
 import com.example.BookShopApp.data.dto.BookReviewRateValue;
 import com.example.BookShopApp.data.dto.BookStatusDto;
 import com.example.BookShopApp.data.dto.SearchWordDto;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -177,6 +179,12 @@ public class BookShopCartController {
         String[] cookieSlugs = cartContents.split("/");
         List<BookEntity> booksFromCookieSlugs = bookRepository.findBooksBySlugIn(cookieSlugs);
         String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
+        return new RedirectView(paymentUrl);
+    }
+
+    @PostMapping("/topupaccount")
+    public RedirectView handleTopUpAccount(@RequestBody Sum sum, Principal principal) throws NoSuchAlgorithmException {
+        String paymentUrl = paymentService.topUpUserAccount(sum.getSum(), principal);
         return new RedirectView(paymentUrl);
     }
 }

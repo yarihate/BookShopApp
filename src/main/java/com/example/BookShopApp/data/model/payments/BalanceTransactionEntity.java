@@ -1,7 +1,11 @@
 package com.example.BookShopApp.data.model.payments;
 
+import com.example.BookShopApp.data.model.BookstoreUser;
+import com.example.BookShopApp.data.model.book.BookEntity;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "balance_transaction")
@@ -9,61 +13,72 @@ public class BalanceTransactionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private BookstoreUser user;
 
-    @Column(columnDefinition = "TIMESTAMP NOT NULL")
-    private LocalDateTime time;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private BookEntity book;
 
-    @Column(columnDefinition = "INT NOT NULL  DEFAULT 0")
-    private int value;
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int bookId;
+    @Column(nullable = false, columnDefinition = "Decimal(10,2) default '00.00'")
+    private Double value;
 
-    @Column(columnDefinition = "TEXT NOT NULL")
+    @Column(nullable = false)
     private String description;
 
-    public int getId() {
+    public String formattedDateTime() {
+        if (dateTime != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            return dateTime.format(formatter);
+        } else {
+            return "undefined";
+        }
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public BookstoreUser getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(BookstoreUser user) {
+        this.user = user;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public BookEntity getBook() {
+        return book;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setBook(BookEntity book) {
+        this.book = book;
     }
 
-    public int getValue() {
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Double value) {
         this.value = value;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
     }
 
     public String getDescription() {

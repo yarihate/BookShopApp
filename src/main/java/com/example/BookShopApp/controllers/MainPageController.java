@@ -91,13 +91,13 @@ public class MainPageController {
 
     @GetMapping(value = {"/search", "search/{searchWord}"})
     public String getSearchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto, Model model) throws EmptySearchException {
-      if(searchWordDto != null) {
-          model.addAttribute("searchWordDto", searchWordDto);
-          model.addAttribute("searchResults", bookService.getPageOfGoogleBooksApiSearchResult(searchWordDto.getExample(), 0, 5));
-          return "/search/index";
-      }else {
-          throw new EmptySearchException("Поиск по null невозможен");
-      }
+        if (searchWordDto != null) {
+            model.addAttribute("searchWordDto", searchWordDto);
+            model.addAttribute("searchResults", bookService.getPageOfGoogleBooksApiSearchResult(searchWordDto.getExample(), 0, 5));
+            return "/search/index";
+        } else {
+            throw new EmptySearchException("Поиск по null невозможен");
+        }
     }
 
     @GetMapping("/search/page/{searchWord}")

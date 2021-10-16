@@ -131,7 +131,7 @@ p.error-browser
             </svg>
             <span class="CartBlock-text"
                   th:text="${curUser.name}">Дмитрий Петров</span><span
-                  class="CartBlock-budget">На счете 100 рублей</span></a>
+                  class="CartBlock-budget" th:text="'Баланс: ' + ${curUser.getBalance()}  + ' руб'">На счете 100 рублей</span></a>
             <a th:href="@{/logout}">Выход</a>
           </div>
         </div>

@@ -7,15 +7,18 @@ import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.book.BookEntity;
 import com.example.BookShopApp.data.model.enums.BookStatus;
 import com.example.BookShopApp.data.repositories.BookRepository;
+import com.example.BookShopApp.data.services.PaymentService;
 import com.example.BookShopApp.data.services.RatingService;
 import com.example.BookShopApp.data.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +37,7 @@ public class BookShopCartController {
     private final BookRepository bookRepository;
     private final RatingService ratingService;
     private final ReviewService reviewService;
+    private final PaymentService paymentService;
 
     @ModelAttribute(name = "bookCart")
     public List<BookEntity> bookCart() {
@@ -51,10 +55,11 @@ public class BookShopCartController {
     private static final String CART_CONTENTS_COOKIE_NAME = "cartContents";
 
     @Autowired
-    public BookShopCartController(BookRepository bookRepository, RatingService ratingService, ReviewService reviewService) {
+    public BookShopCartController(BookRepository bookRepository, RatingService ratingService, ReviewService reviewService, PaymentService paymentService) {
         this.bookRepository = bookRepository;
         this.ratingService = ratingService;
         this.reviewService = reviewService;
+        this.paymentService = paymentService;
     }
 
     @GetMapping("/cart")
@@ -161,5 +166,17 @@ public class BookShopCartController {
         stringFromCookie = stringFromCookie.endsWith("/") ? stringFromCookie.substring(0, stringFromCookie.length() - 1)
                 : stringFromCookie;
         return stringFromCookie.split("/");
+    }
+
+    @GetMapping("/pay")
+    public RedirectView handlePay(@CookieValue(value = "cartContents", required = false) String cartContents) throws NoSuchAlgorithmException {
+
+        cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
+        cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) :
+                cartContents;
+        String[] cookieSlugs = cartContents.split("/");
+        List<BookEntity> booksFromCookieSlugs = bookRepository.findBooksBySlugIn(cookieSlugs);
+        String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
+        return new RedirectView(paymentUrl);
     }
 }

@@ -33,6 +33,16 @@ public class AuthorEntity {
     @OneToMany(mappedBy = "author")
     private List<BookEntity> bookList = new ArrayList<>();
 
+    public AuthorEntity(List<String> authors) {
+        if(authors != null){
+            this.name = authors.toString();
+        }
+    }
+
+
+    public AuthorEntity() {
+    }
+
     public Integer getId() {
         return id;
     }

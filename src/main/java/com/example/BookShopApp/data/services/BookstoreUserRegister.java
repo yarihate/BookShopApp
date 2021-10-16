@@ -1,12 +1,13 @@
 package com.example.BookShopApp.data.services;
 
+import com.example.BookShopApp.data.ChangeUserDataForm;
 import com.example.BookShopApp.data.model.BookstoreUser;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;
-import com.example.BookShopApp.security.jwt.JWTUtil;
 import com.example.BookShopApp.security.BookstoreUserDetails;
 import com.example.BookShopApp.security.ContactConfirmationPayload;
 import com.example.BookShopApp.security.ContactConfirmationResponse;
 import com.example.BookShopApp.security.RegistrationForm;
+import com.example.BookShopApp.security.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ public class BookstoreUserRegister {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
 
+
     @Autowired
     public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
         this.bookstoreUserRepository = bookstoreUserRepository;
@@ -31,6 +33,7 @@ public class BookstoreUserRegister {
         this.authenticationManager = authenticationManager;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
+
     }
 
     public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
@@ -60,7 +63,7 @@ public class BookstoreUserRegister {
             return null;
         }
         if (principal instanceof BookstoreUserDetails) {
-            return ((BookstoreUserDetails) principal).getBookstoreUser();
+            return bookstoreUserRepository.findBookstoreUserByEmail(((BookstoreUserDetails) principal).getEmail());
         } else if (principal instanceof DefaultOAuth2User) {
             BookstoreUser bookStoreUser = new BookstoreUser();
             bookStoreUser.setName(((DefaultOAuth2User) principal).getAttribute("name"));
@@ -79,5 +82,23 @@ public class BookstoreUserRegister {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
         response.setResult(jwtToken);
         return response;
+    }
+
+    public boolean applyUserDataChanges(ChangeUserDataForm changeUserDataForm, String name) {
+        BookstoreUser user = bookstoreUserRepository.findBookstoreUserByName(name);
+        if (changeUserDataForm.getName() != null) {
+            user.setName(changeUserDataForm.getName());
+        }
+        if (changeUserDataForm.getMail() != null) {
+            user.setEmail(changeUserDataForm.getMail());
+        }
+        if (changeUserDataForm.getPhone() != null) {
+            user.setPhone(changeUserDataForm.getPhone());
+        }
+        if (changeUserDataForm.getPassword() != null && !changeUserDataForm.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(changeUserDataForm.getPassword()));
+        }
+        bookstoreUserRepository.save(user);
+        return true;
     }
 }

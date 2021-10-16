@@ -75,18 +75,19 @@
           <div class="Tabs-wrap">
             <div class="Tabs-block" id="basic">
               <div class="Profile">
-                <form class="form Profile-form" action="#" method="post">
+                <form class="form Profile-form" th:object="${changeUserDataForm}"
+                      th:action="@{/changeUserData}" action="#" method="post">
                   <div class="row">
                     <div class="row-block">
                       <div class="form-group">
                         <label class="form-label" for="name">Имя
                         </label>
-                        <input class="form-input" id="name" name="name" type="text" th:value="${curUser.name}" value="Михаил"/>
+                        <input class="form-input" id="name" name="name" th:id="*{name}" type="text" th:value="${curUser.name}" value="Михаил"/>
                       </div>
                       <div class="form-group">
                         <label class="form-label" for="mail">E-mail
                         </label>
-                        <input class="form-input" id="mail" name="mail" type="text" value="addr@sait.com" th:value="${curUser.email}"  data-validate="require mail"/>
+                        <input class="form-input" id="mail" name="mail" th:id="*{mail}" type="text" value="addr@sait.com" th:value="${curUser.email}"  data-validate="require mail"/>
                         <div class="Profile-btn Profile-btn_confirm">
                           <button class="btn btn_primary" type="button">Подтвердить
                           </button>
@@ -95,7 +96,7 @@
                       <div class="form-group">
                         <label class="form-label" for="phone">Телефон
                         </label>
-                        <input class="form-input" id="phone" name="phone" type="text" value="+70000000000" th:value="${curUser.phone}"  data-mask="+7 (999) 999-99-99" data-validate="require"/>
+                        <input class="form-input" id="phone" name="phone" th:id="*{phone}" value="+70000000000" th:value="${curUser.phone}"  data-mask="+7 (999) 999-99-99" data-validate="require"/>
                         <div class="Profile-btn Profile-btn_confirm">
                           <button class="btn btn_primary" type="button">Подтвердить
                           </button>
@@ -106,12 +107,13 @@
                       <div class="form-group">
                         <label class="form-label" for="password">Пароль
                         </label>
-                        <input class="form-input" id="password" name="password" type="password" placeholder="Тут можно изменить пароль"/>
+                        <input class="form-input" id="password" name="password" th:id="*{password}"
+                               type="password" placeholder="Тут можно изменить пароль"/>
                       </div>
                       <div class="form-group">
                         <label class="form-label" for="passwordReply">Подтверждение пароля
                         </label>
-                        <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно"/>
+                        <input class="form-input" id="passwordReply" name="passwordReply"    th:id="*{passwordReply}" type="password" placeholder="Введите пароль повторно"/>
                       </div>
                       <div class="form-group">
                         <div class="Profile-btn">

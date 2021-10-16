@@ -1,5 +1,7 @@
 package com.example.BookShopApp.controllers;
 
+import com.example.BookShopApp.data.ChangePasswordForm;
+import com.example.BookShopApp.data.ChangeUserDataForm;
 import com.example.BookShopApp.data.dto.SearchWordDto;
 import com.example.BookShopApp.data.model.SmsCode;
 import com.example.BookShopApp.data.services.BookstoreUserRegister;
@@ -13,9 +15,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Controller
 public class AuthUserController {
@@ -34,6 +38,7 @@ public class AuthUserController {
         this.bookstoreUserRegister = bookstoreUserRegister;
         this.smsService = smsService;
         this.javaMailSender = javaMailSender;
+
     }
 
     @GetMapping("/signin")
@@ -105,6 +110,7 @@ public class AuthUserController {
     @GetMapping("/profile")
     public String handleProfile(Model model) {
         model.addAttribute("curUser", bookstoreUserRegister.getCurrentUser());
+        model.addAttribute("changeUserDataForm", new ChangeUserDataForm());
         return "profile";
     }
 
@@ -116,6 +122,22 @@ public class AuthUserController {
     @GetMapping("/401")
     public String handle401() {
         return "401";
+    }
+
+    @GetMapping("/changepassword")
+    public String handleGetChangePassword(Model model) {
+        model.addAttribute("changePassForm", new ChangePasswordForm());
+        return "changepassword";
+    }
+
+
+    @PostMapping("/changeUserData")
+    public String handleChangeUserDataRequest(ChangeUserDataForm changeUserDataForm, RedirectAttributes redirectAttributes,
+                                              Principal principal) {
+        bookstoreUserRegister.applyUserDataChanges(changeUserDataForm, principal.getName());
+        redirectAttributes.addFlashAttribute("changedUserDataMessage", "Учетные данные изменены.");
+
+        return "redirect:/";
     }
 
 }

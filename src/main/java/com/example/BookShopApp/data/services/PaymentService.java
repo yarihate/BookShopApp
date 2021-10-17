@@ -72,7 +72,6 @@ public class PaymentService {
     public String topUpUserAccount(Double sum, Principal principal) throws NoSuchAlgorithmException {
         BookstoreUser user;
         if (((UsernamePasswordAuthenticationToken) principal).getPrincipal() instanceof BookstoreUserDetails) {
-            // user = bookstoreUserRepository.findBookstoreUserByEmail(((CustomOAuth2User) ((OAuth2AuthenticationToken) principal)
             user = bookstoreUserRepository.findBookstoreUserByEmail(((BookstoreUserDetails) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getEmail());
         } else {
             user = bookstoreUserRepository.findBookstoreUserByName(principal.getName());

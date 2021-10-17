@@ -1,6 +1,7 @@
 package com.example.BookShopApp.controllers;
 
 import com.example.BookShopApp.data.BookRateValue;
+import com.example.BookShopApp.data.PaymentResponse;
 import com.example.BookShopApp.data.Sum;
 import com.example.BookShopApp.data.dto.BookReviewRateValue;
 import com.example.BookShopApp.data.dto.BookStatusDto;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
@@ -171,15 +173,35 @@ public class BookShopCartController {
     }
 
     @GetMapping("/pay")
-    public RedirectView handlePay(@CookieValue(value = "cartContents", required = false) String cartContents) throws NoSuchAlgorithmException {
-
-        cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
-        cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) :
-                cartContents;
-        String[] cookieSlugs = cartContents.split("/");
+    public String handlePay(@CookieValue(name = "cartContents", required = false) String cartContents,
+                            @CookieValue(name = "postponedContents", required = false) String postponedContents,
+                            HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        String bookContent;
+        if (cartContents != null) {
+            bookContent = cartContents;
+        } else {
+            bookContent = postponedContents;
+        }
+        String[] cookieSlugs = createArrayWithBookSlugsFromCookie(bookContent);
         List<BookEntity> booksFromCookieSlugs = bookRepository.findBooksBySlugIn(cookieSlugs);
-        String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
-        return new RedirectView(paymentUrl);
+
+        PaymentResponse paymentResponse = paymentService.payFromUserAccount(booksFromCookieSlugs);
+        if (paymentResponse.isSuccess()) {
+            Cookie cookie;
+            if (cartContents != null) {
+                cookie = new Cookie("cartContents", null);
+            } else {
+                cookie = new Cookie("postponedContents", null);
+            }
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            redirectAttributes.addFlashAttribute("paymentMessage", paymentResponse.getMessage());
+            return "redirect:/";
+
+        } else {
+            redirectAttributes.addFlashAttribute("paymentMessage", paymentResponse.getMessage());
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/topupaccount")

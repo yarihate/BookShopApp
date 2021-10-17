@@ -1,8 +1,11 @@
 package com.example.BookShopApp.data.services;
 
+import com.example.BookShopApp.data.ChangePasswordForm;
 import com.example.BookShopApp.data.ChangeUserDataForm;
 import com.example.BookShopApp.data.model.BookstoreUser;
+import com.example.BookShopApp.data.model.UserDataEdition;
 import com.example.BookShopApp.data.repositories.BookstoreUserRepository;
+import com.example.BookShopApp.data.repositories.UserDataEditionRepository;
 import com.example.BookShopApp.security.BookstoreUserDetails;
 import com.example.BookShopApp.security.ContactConfirmationPayload;
 import com.example.BookShopApp.security.ContactConfirmationResponse;
@@ -16,6 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.UUID;
 
 @Service
 public class BookstoreUserRegister {
@@ -24,16 +30,16 @@ public class BookstoreUserRegister {
     private final AuthenticationManager authenticationManager;
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
-
+    private final UserDataEditionRepository userDataEditionRepository;
 
     @Autowired
-    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
+    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, UserDataEditionRepository userDataEditionRepository) {
         this.bookstoreUserRepository = bookstoreUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
-
+        this.userDataEditionRepository = userDataEditionRepository;
     }
 
     public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
@@ -84,21 +90,43 @@ public class BookstoreUserRegister {
         return response;
     }
 
-    public boolean applyUserDataChanges(ChangeUserDataForm changeUserDataForm, String name) {
-        BookstoreUser user = bookstoreUserRepository.findBookstoreUserByName(name);
-        if (changeUserDataForm.getName() != null) {
-            user.setName(changeUserDataForm.getName());
+    public boolean changePassword(ChangePasswordForm changePasswordForm, Model model) {
+        BookstoreUser userByEmail = bookstoreUserRepository.findBookstoreUserByEmail(changePasswordForm.getEmail());
+        BookstoreUser userByPhone = bookstoreUserRepository.findBookstoreUserByPhone(changePasswordForm.getPhone());
+        if (userByEmail.equals(userByPhone) && passwordEncoder.matches(changePasswordForm.getOldPassword(), userByEmail.getPassword())) {
+            userByEmail.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
+            bookstoreUserRepository.save(userByEmail);
+            return true;
+        } else {
+            model.addAttribute("changePassError", true);
+            return false;
         }
-        if (changeUserDataForm.getMail() != null) {
-            user.setEmail(changeUserDataForm.getMail());
+    }
+
+    public void saveTempUserDataChanges(ChangeUserDataForm changeUserDataForm, String changeUuid, String userEmail) {
+        UserDataEdition userDataEdition = new UserDataEdition(changeUserDataForm, changeUuid, userEmail);
+        userDataEditionRepository.save(userDataEdition);
+    }
+
+    public boolean applyUserDataChanges(String uuid) {
+        UserDataEdition userDataEditionFromDB = userDataEditionRepository.findById(UUID.fromString(uuid)).orElse(null);
+        if (userDataEditionFromDB != null) {
+            BookstoreUser user = bookstoreUserRepository.findBookstoreUserByEmail(userDataEditionFromDB.getUserDetailEmail());
+            if (userDataEditionFromDB.getName() != null) {
+                user.setName(userDataEditionFromDB.getName());
+            }
+            if (userDataEditionFromDB.getMail() != null) {
+                user.setEmail(userDataEditionFromDB.getMail());
+            }
+            if (userDataEditionFromDB.getPhone() != null) {
+                user.setPhone(userDataEditionFromDB.getPhone());
+            }
+            if (userDataEditionFromDB.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(userDataEditionFromDB.getPassword()));
+            }
+            bookstoreUserRepository.save(user);
+            return true;
         }
-        if (changeUserDataForm.getPhone() != null) {
-            user.setPhone(changeUserDataForm.getPhone());
-        }
-        if (changeUserDataForm.getPassword() != null && !changeUserDataForm.getPassword().isBlank()) {
-            user.setPassword(passwordEncoder.encode(changeUserDataForm.getPassword()));
-        }
-        bookstoreUserRepository.save(user);
-        return true;
+        return false;
     }
 }

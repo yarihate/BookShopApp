@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.AuthenticationFailedException;
+
 @ControllerAdvice
 public class GlobalExceptionHandlerController {
 
@@ -44,5 +46,11 @@ public class GlobalExceptionHandlerController {
         redirectAttributes.addFlashAttribute("UsernameNotFoundError", ex);
         redirectAttributes.addFlashAttribute("IncorrectPasswordError", ex);
         return "redirect:/signin";
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public String handleAuthenticationException(AuthenticationFailedException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("smtp_authentication_failed", ex);
+        return "redirect:/profile";
     }
 }
